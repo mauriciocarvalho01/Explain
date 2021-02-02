@@ -1,0 +1,29 @@
+{
+  "compilerOptions": {
+    "target": "es5",
+    "lib": [
+      "dom",
+      "dom.iterable",
+      "esnext"
+    ],
+    "allowJs": true,
+    "skipLibCheck": true,
+    "strict": false,
+    "forceConsistentCasingInFileNames": true,
+    "noEmit": true,
+    "esModuleInterop": true,
+    "module": "esnext",
+    "moduleResolution": "node",
+    "resolveJsonModule": true,
+    "isolatedModules": true,
+    "jsx": "preserve"
+  },
+  "include": [
+    "next-env.d.ts",
+    "**/*.ts",
+    "**/*.tsx"
+, "src/pages/cadastro.tsx", "src/lib/fetchJson.js", "src/pages/api/courses.js", "src/pages/api/utils/getUserEmail.ts", "src/pages/api/utils/Exception.ts", "src/pages/api/cadastro.ts", "src/pages/api/utils/InsertUser.js", "src/pages/api/user.js", "src/pages/api/glogin.js", "src/pages/api/auth/[...nextauth].js"  ],
+  "exclude": [
+    "node_modules"
+  ]
+}

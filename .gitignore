@@ -1,0 +1,7 @@
+.vscode
+node_modules
+.env
+material-dashboard-master
+token.json
+src/pages/api/config
+.next
