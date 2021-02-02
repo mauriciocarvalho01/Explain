@@ -5,3 +5,4 @@ material-dashboard-master
 token.json
 src/pages/api/config
 .next
+src/pages/api/auth
