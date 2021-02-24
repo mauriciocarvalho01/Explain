@@ -1,4 +1,31 @@
+import React, { useState, useEffect } from "react";
+import { useSession } from 'next-auth/client';
+import axios from 'axios';
+
 export default function ContentDashboard() {
+
+  const [session, loading] = useSession();
+  const [user, setUser] = useState({});
+  const [location, setLocation] = useState("contentDashboard");
+
+
+  useEffect(() => {
+    const fetchUSer = async () => {
+      const res = await axios.get("http://localhost:3000/api/user");
+      const { data } = res;
+
+      if (data.status === 200) {
+        
+        console.log(data); 
+      }
+      return data;
+    }
+
+    fetchUSer();
+  }, [session]);
+
+
+
     return (
         <div className="content">
             <div className="container-fluid">

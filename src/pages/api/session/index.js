@@ -1,15 +1,33 @@
-import { getSession } from 'next-auth/client'
+
+import { getSession } from 'next-auth/client';
+import insertUser from '../user/insert'
+import queryUser from '../user/get'
 
 export default async (req, res) => {
   const session = await getSession({ req })
 
-  console.log(JSON.stringify(session))
-  const user = session.user.name
-  const username = user.split(' ')[0]
-
   if (session) {
-    res.send({ content: `Olá, ${username}. Bem vindo ao Explain!` })
+    const user = session.user.name;
+    const email = session.user.email;
+    const image = session.user.image;
+    const first_name = user.split(' ')[0];
+
+    const responseUSer = await queryUser(email);
+
+    const isUser = responseUSer ? responseUSer.length : null;
+
+    if (isUser === 0) {
+      insertUser(session);
+    }
+
+    const response = {
+      status: 200,
+      id: email,
+      image: image,
+      message: `Olá, ${first_name}. Bem vindo ao Explain!`
+    }
+    res.send(response);
   } else {
-    res.status(404).json({ error: 'Faça Login' })
+    res.send({ error: 'Faça Login' })
   }
 }

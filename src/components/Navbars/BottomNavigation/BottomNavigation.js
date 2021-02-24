@@ -2,44 +2,31 @@ import React, { useEffect } from 'react';
 import { makeStyles } from '@material-ui/core/styles';
 import BottomNavigation from '@material-ui/core/BottomNavigation';
 import BottomNavigationAction from '@material-ui/core/BottomNavigationAction';;
-import PublishIcon from '@material-ui/icons/Publish';
-import SettingsVoiceIcon from '@material-ui/icons/SettingsVoice';
-import SaveAltIcon from '@material-ui/icons/SaveAlt';
-import RotateLeftIcon from '@material-ui/icons/RotateLeft';
-// Import axios
-import axios from "axios";
-import store from "../../Watson/Jarvis/Store";
+import JarvisIcon from '../../Jarvis/JarvisIcon';
+import Watson from '../../../pages/api/watson/watson';
 
-// Import action
-import { createSession } from "../../../pages/watson/actions/watson";
 
 const useStyles = makeStyles({
   root: {
-    width: 'auto',
-    position: 'relative'
+    width: "auto"
   },
+  effect: {
+    display: "none"
+  }
 });
 
 export default function LabelBottomNavigation() {
   const classes = useStyles();
-  const [value, setValue] = React.useState('recents');
+  const [jarvis, getJarvis] = React.useState(false);
 
-  const handleChange = (event, newValue) => {
-    setValue(newValue);
-  };
 
-  function resetBot() {
-    if (process.browser) {
-      localStorage.removeItem('session');
-    }
-  }
 
   return (
-    <BottomNavigation value={value} onChange={handleChange} className={classes.root}>
-      <BottomNavigationAction label="Upload" value="upload" icon={<PublishIcon />} />
-      <BottomNavigationAction label="Voz" value="voz" icon={<SettingsVoiceIcon />} />
-      <BottomNavigationAction label="Salvar" value="salvar" icon={<SaveAltIcon />} />
-      <BottomNavigationAction onClick={resetBot} label="Resetar" value="resetar" icon={<RotateLeftIcon />} />
-    </BottomNavigation>
+    <div>
+      <BottomNavigation className={classes.root}>
+        <BottomNavigationAction onClick={() => getJarvis(true)} label="Jarvis Explain" value="jarvis" icon={<JarvisIcon />} />
+      </BottomNavigation>
+      {jarvis ? <Watson className={classes.effect} /> : false}
+    </div>
   );
 }

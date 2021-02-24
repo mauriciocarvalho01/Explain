@@ -1,11 +1,27 @@
-import AdbIcon from '@material-ui/icons/Adb';
+import { makeStyles } from '@material-ui/core/styles';
+import Avatar from '@material-ui/core/Avatar';
+
+const useStyles = makeStyles((theme) => ({
+    root: {
+        display: 'flex',
+        '& > *': {
+            margin: theme.spacing(1),
+        },
+    },
+    small: {
+        width: theme.spacing(3),
+        height: theme.spacing(3),
+    }
+}));
+
+const logoIcon = "https://dev.arigo.com.br/boleto/img/robot.png"
 
 export default function JarvisIcon() {
+    const classes = useStyles();
 
-    return (
+    return ( 
         <div align="center">
-            <AdbIcon />
-            <p>J.A.R.V.I.S</p>
+            <Avatar alt="User" src={logoIcon} className={classes.small} />
         </div>
     )
 }

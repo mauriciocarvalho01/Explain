@@ -1,5 +1,6 @@
 import Redirect from '../../utils/Redirect';
 import { useState } from 'react';
+import LabelBottomNavigation from '../Navbars/BottomNavigation/BottomNavigation';
 
 
 export default function Sidebar(props) {
@@ -13,6 +14,9 @@ export default function Sidebar(props) {
       break;
     case 'profile':
       return <Redirect to="/perfil" />
+      break;
+    case 'classroom':
+      return <Redirect to="/classroom" />
       break;
     default:
       <Redirect to="/login" />
@@ -38,16 +42,16 @@ export default function Sidebar(props) {
               <p>Perfil</p>
             </a>
           </li>
-          <li class="nav-item ">
-            <a class="nav-link" href="./tables.html">
+          <li class="nav-item " onClick={() => local !== 'classroom' ? toPage("classroom") : false}>
+            <a class="nav-link">
               <i class="material-icons">school</i>
-              <p>Cursos</p>
+              <p>Classroom</p>
             </a>
           </li>
           <li class="nav-item active-pro" align="center">
             <a className="nav-link" align="center">
-              Watson
-          </a>
+              <LabelBottomNavigation />
+            </a>
           </li>
         </ul>
       </div>

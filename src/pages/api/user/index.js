@@ -1,17 +1,25 @@
-import { getSession } from 'next-auth/client'
-import InsertUser from './insert'
+import { getSession } from 'next-auth/client'; 
+import queryUser from './get';
+
 
 export default async (req, res) => {
-  const session = await getSession({ req })
 
-  const insertIn = await InsertUser(session)
+  const session = await getSession({ req });
 
-  if (insertIn) {
-    res.send({
-      status: true,
-      user: session.user
-    })
+  if (session) {
+    const email = session.user.email;
+
+    const responseUSer = await queryUser(email);
+
+    const user = responseUSer ? responseUSer[0] : null;
+
+    const response = {
+      status: 200,
+      user: user
+    }
+    res.send(response);
   } else {
-    res.status(404).json({ error: 'Insert error' })
+    res.send({ error: 'Faça Login' })
   }
 }
+

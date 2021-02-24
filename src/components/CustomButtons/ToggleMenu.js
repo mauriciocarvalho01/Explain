@@ -5,10 +5,30 @@ import Button from '@material-ui/core/Button';
 import Menu from '@material-ui/core/Menu';
 import MenuItem from '@material-ui/core/MenuItem';
 import Fade from '@material-ui/core/Fade';
+import { makeStyles } from '@material-ui/core/styles';
+import Avatar from '@material-ui/core/Avatar';
 
-export default function MenuPopUpUser() {
+const useStyles = makeStyles((theme) => ({
+    root: {
+        display: 'flex',
+        '& > *': {
+            margin: theme.spacing(1),
+        },
+    },
+    small: {
+        width: theme.spacing(3),
+        height: theme.spacing(3),
+    }
+}));
+
+
+export default function MenuPopUpUser(props) {
+    const classes = useStyles();
     const [anchorEl, setAnchorEl] = React.useState(null);
     const open = Boolean(anchorEl);
+
+    const { user } = props.user;
+
 
     const handleClick = (event) => {
         setAnchorEl(event.currentTarget);
@@ -21,7 +41,8 @@ export default function MenuPopUpUser() {
     return (
         <div>
             <Button aria-controls="fade-menu" aria-haspopup="true" onClick={handleClick}>
-                <PersonIcon />
+                {user ?
+                    <Avatar alt="User" src={user.image} className={classes.small} /> : <PersonIcon />}
             </Button>
             <Menu
                 id="fade-menu"

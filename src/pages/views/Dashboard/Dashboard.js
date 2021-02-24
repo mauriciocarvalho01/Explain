@@ -2,27 +2,36 @@ import React, { useState, useEffect } from "react";
 import { useSession } from 'next-auth/client';
 import Sidebar from '../../../components/Sidebar/Sidebar';
 import MainPanel from '../../../components/MainPanel/MainPanel';
-import Redirect from '../../../utils/Redirect'; 
-
+import Redirect from '../../../utils/Redirect';
+import axios from 'axios';
 
 function Dashboard() {
 
   const [session, loading] = useSession();
-  const [user, setUser] = useState();
+  const [user, setUser] = useState({});
+  const [messageWelcome, setMessageWelcome] = useState('');
   const [location, setLocation] = useState("dashboard");
 
 
-
   useEffect(() => {
-    const fetchData = async () => {
-      const res = await fetch("/api/session");
-      const json = await res.json();
+    const fetchSession = async () => {
+      const res = await axios.get("http://localhost:3000/api/session");
+      const { data } = res;
 
-      if (json.content) {
-        setUser(json.content);
+      if (data.status === 200) {
+        setMessageWelcome(data != undefined ? data.message : "Olá, bem vindo ao Explain!");
       }
+      return data;
     }
-    fetchData();
+
+    const fetchUser = async () =>{
+      const insertUser = await axios.get("http://localhost:3000/api/user");
+      const { data } = insertUser; 
+      setUser(data);
+    }
+
+    fetchSession();
+    fetchUser();
   }, [session]);
 
   if (typeof window !== 'undefined' && loading) {
@@ -35,11 +44,12 @@ function Dashboard() {
 
   return (
     < div className="wrapper" >
-      <Sidebar 
-      local = {location}
+      <Sidebar
+        local={location}
       />
       <MainPanel
-        user={user != null ? user : false}
+        user={user != undefined ? user : false}
+        message={messageWelcome != undefined ? messageWelcome : false}
         local={location}
       />
     </div >

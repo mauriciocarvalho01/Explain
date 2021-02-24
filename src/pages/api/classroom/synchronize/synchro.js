@@ -8,18 +8,35 @@ const { google } = require('googleapis');
 
 const handler = async (req, res) => {
 
+    if (req) { var { code } = req.body };
+
+    console.log("*************CODE*****************" + code)
+
     try {
-
-
         // If modifying these scopes, delete token.json.
-        const SCOPES = process.env.SCOPES;
+        const SCOPES = [
+            'https://www.googleapis.com/auth/classroom.courses',
+            'https://www.googleapis.com/auth/classroom.courses.readonly'
+        ];
         // The file token.json stores the user's access and refresh tokens, and is
         // created automatically when the authorization flow completes for the first
         // time.
 
 
-        const TOKEN_PATH = 'src/pages/api/config/google/token.json';
-        const PATH_CREDENTIALS = 'src/pages/api/config/google/credentials.json'
+        const TOKEN_PATH = 'src/pages/api/config/google/token/sinchro_tkn.json';
+        const PATH_CREDENTIALS = 'src/pages/api/config/google/credentials/credentials.json';
+
+        if (!code) {
+            // Especificamos o nome e extensão do arquivo a ser deletado
+            fs.unlink(TOKEN_PATH, function (err) {
+                if (err) {
+                    console.log(`Arquivo [${TOKEN_PATH}] não encontrado!`);
+                } else {
+                    console.log(`Arquivo [${TOKEN_PATH}] deletado!`);
+                }
+            })
+
+        }
 
         // Load client secrets from a local file.
         fs.readFile(PATH_CREDENTIALS, (err, content) => {
@@ -62,12 +79,12 @@ const handler = async (req, res) => {
                 scope: SCOPES,
             });
             console.log('Authorize this app by visiting this url:', authUrl);
-            const rl = readline.createInterface({
-                input: process.stdin,
-                output: process.stdout,
-            });
-            rl.question('Enter the code from that page here: ', (code) => {
-                rl.close();
+            !code && authUrl ? res.send({ status: 200, url: authUrl }) : res.send({ status: 200 });
+            // const rl = readline.createInterface({
+            //     input: process.stdin,
+            //     output: process.stdout,
+            // });
+            const insertCode = ((code) => {
                 oAuth2Client.getToken(code, (err, token) => {
                     if (err) return console.error('Error retrieving access token', err);
                     oAuth2Client.setCredentials(token);
@@ -79,17 +96,19 @@ const handler = async (req, res) => {
                     callback(oAuth2Client);
                 });
             });
+
+            code ? insertCode(code) : false;
         }
 
         /**
-         * Lists the first 10 courses the user has access to.
-         *
-         * @param {google.auth.OAuth2} auth An authorized OAuth2 client.
-         */
+     * Lists the first 10 courses the user has access to.
+     *
+     * @param {google.auth.OAuth2} auth An authorized OAuth2 client.
+     */
+        //PRECISO INSERIR AS INFORMAÇÕES DO CURSO NO BANCO
         function listCourses(auth) {
             const classroom = google.classroom({ version: 'v1', auth });
-            classroom.courses.courseWork.list({
-                courseId: 74347591179,
+            classroom.courses.list({
                 pageSize: 10,
             }, (err, res) => {
                 if (err) return console.error('The API returned an error: ' + err);
@@ -97,19 +116,19 @@ const handler = async (req, res) => {
                 if (courses && courses.length) {
                     console.log('Courses:');
                     courses.forEach((course) => {
+                        //Criar rotina para alimentar o banco de dados.
                         console.log(`${course.name} (${course.id})`);
                     });
                 } else {
                     console.log('No courses found.');
                 }
-
-                console.log(res.data);
             });
         }
 
     } catch (err) {
         res.status(500).json({ statusCode: 500, message: err.message });
     }
+
 }
 
 export default handler;

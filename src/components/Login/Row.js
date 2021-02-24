@@ -5,10 +5,6 @@ import { signIn, useSession } from 'next-auth/client';
 
 
 const Row = () => {
-
-    const [session, loading] = useSession();
-
-
     return (
         <div className="row">
             <div className="col-md-12">

@@ -2,11 +2,15 @@ import MenuPopUpUser from '../CustomButtons/ToggleMenu';
 
 export default function Navbar(props) {
 
+  const {user, message} = props; 
+
+
+
   return (
     <nav class="navbar navbar-expand-lg navbar-transparent navbar-absolute fixed-top ">
       <div className="container-fluid">
         <div className="navbar-wrapper">
-          <a class="navbar-brand" href="javascript:;"></a>
+          <a class="navbar-brand" href="javascript:;">{message}</a>
         </div>
         <button class="navbar-toggler" type="button" data-toggle="collapse" aria-controls="navigation-index" aria-expanded="false" aria-label="Toggle navigation">
           <span class="sr-only">Toggle navigation</span>
@@ -50,7 +54,8 @@ export default function Navbar(props) {
               </div>
             </li>
             <li class="nav-item dropdown">
-              <MenuPopUpUser />
+              <MenuPopUpUser
+              user = {user}/>
             </li>
           </ul>
         </div>
