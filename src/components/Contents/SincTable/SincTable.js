@@ -1,6 +1,5 @@
 import React, { useState, useEffect } from "react";
 import axios from 'axios';
-import LinearProgressWithLabel from '../../Utils/Progress';
 import ChipNotSinc from '../../Utils/ChipNotSinc';
 import ChipSinc from '../../Utils/ChipSinc';
 import swal from 'sweetalert'
@@ -128,7 +127,6 @@ export default function SincTable(props) {
                           Estudante
                         </td>
                         <td>
-                          {sinc === "Sincronizando..." ? <LinearProgressWithLabel /> : false}
                           {(!sinced && sinc !== "Sincronizado" && sinc !== "Sincronizando...") ? <ChipNotSinc sinc={sinc} image={image} /> : <ChipSinc sinc={sinc} image={image} />}
                         </td>
                       </tr>

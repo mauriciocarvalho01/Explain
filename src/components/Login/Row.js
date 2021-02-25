@@ -35,7 +35,7 @@ const Row = () => {
                             </div>
                             <div className="row">
                                 <div className="col-md-6">
-                                <button onClick={signIn} type="submit" className="btn btn-light pull-left">Conta google</button>
+                                    <button onClick={signIn} type="submit" className="btn btn-light pull-left">Conta google</button>
                                 </div>
                                 <div className="col-md-6">
                                     <button onClick={signIn} type="submit" className="btn btn-primary pull-right">Entrar</button>

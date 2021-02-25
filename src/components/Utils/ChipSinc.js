@@ -4,6 +4,7 @@ import Avatar from '@material-ui/core/Avatar';
 import Chip from '@material-ui/core/Chip';
 import PersonIcon from '@material-ui/icons/Person';
 import DoneIcon from '@material-ui/icons/Done';
+import CircularIndeterminate from './CircularIndeterminate';
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -15,7 +16,7 @@ const useStyles = makeStyles((theme) => ({
 export default function ChipSinc(props) {
   const classes = useStyles();
 
-  const {image, sinc} = props; 
+  const { image, sinc } = props;
 
 
 
@@ -29,14 +30,14 @@ export default function ChipSinc(props) {
 
   return (
     <div className={classes.root}>
-       <Chip
-        avatar= {image ?
-            <Avatar alt="User" src={image} className={classes.small} /> : <PersonIcon />}
-            label={sinc}
-            clickable
-            color="primary"
-            onDelete={handleDelete}
-            deleteIcon={<DoneIcon />}
+      <Chip
+        avatar={image ?
+          <Avatar alt="User" src={image} className={classes.small} /> : <PersonIcon />}
+        label={sinc}
+        clickable
+        color="primary"
+        onDelete={handleDelete}
+        deleteIcon={sinc === "sincronizando..." ? <CircularIndeterminate /> : <DoneIcon />}
       />
     </div>
   );
