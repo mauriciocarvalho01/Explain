@@ -10,7 +10,7 @@ function ClassroomSinc() {
     const [session, loading] = useSession();
     const [user, setUser] = useState({});
     const [messageWelcome, setMessageWelcome] = useState('');
-    const [location, setLocation] = useState("classroom");
+    const [location, setLocation] = useState("sincronizar");
 
 
     useEffect(() => {

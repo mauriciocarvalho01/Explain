@@ -37,7 +37,7 @@ export default function ChipSinc(props) {
         clickable
         color="primary"
         onDelete={handleDelete}
-        deleteIcon={sinc === "sincronizando..." ? <CircularIndeterminate /> : <DoneIcon />}
+        deleteIcon={sinc === "Sincronizando..." ? <CircularIndeterminate /> : <DoneIcon color="green"/>}
       />
     </div>
   );

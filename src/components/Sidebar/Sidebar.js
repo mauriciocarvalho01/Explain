@@ -1,11 +1,14 @@
 import Redirect from '../../utils/Redirect';
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import LabelBottomNavigation from '../Navbars/BottomNavigation/BottomNavigation';
+import Courses from '../Contents/ContentCourses/ContentCourses';
+
 
 
 export default function Sidebar(props) {
 
   const [page, toPage] = useState("");
+  const [handleOpen, setHandleOpen] = useState({ open: false });
   const { local } = props;
 
   switch (page) {
@@ -15,12 +18,14 @@ export default function Sidebar(props) {
     case 'profile':
       return <Redirect to="/perfil" />
       break;
-    case 'classroom':
-      return <Redirect to="/classroom" />
+    case 'sincronizar':
+      return <Redirect to="/sincronizar" />
       break;
     default:
       <Redirect to="/login" />
   }
+
+
 
 
   return (
@@ -42,12 +47,22 @@ export default function Sidebar(props) {
               <p>Perfil</p>
             </a>
           </li>
-          <li class="nav-item " onClick={() => local !== 'classroom' ? toPage("classroom") : false}>
+          <li class="nav-item " onClick={() => local !== 'sincronizar' ? toPage("sincronizar") : false}>
             <a class="nav-link">
-              <i class="material-icons">school</i>
-              <p>Classroom</p>
+              <i class="material-icons">sync</i>
+              <p>Sincronizar</p>
             </a>
           </li>
+          <li class="nav-item " onClick={() => setHandleOpen({ open: true })}>
+            <a class="nav-link">
+              <i class="material-icons">school</i>
+              <p>Cursos</p>
+            </a>
+          </li>
+          {open ? <Courses
+            handleOpen={handleOpen}
+            setHandleOpen={setHandleOpen} />
+            : false}
           <li class="nav-item active-pro" align="center">
             <a className="nav-link" align="center">
               <LabelBottomNavigation />

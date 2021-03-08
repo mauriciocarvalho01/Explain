@@ -1,8 +1,8 @@
 .vscode
 node_modules
-.env
+# .env
 material-dashboard-master
 token.json
-src/pages/api/config
+# src/pages/api/config
 .next
-src/pages/api/auth
+# src/pages/api/auth

@@ -28,7 +28,7 @@ export default function SincTable(props) {
 
   function sincronization() {
     swal({
-      title: `Deseja sincronizar com o Classroom?`,
+      title: `Autorizar acesso ao Classroom?`,
       text: `A sincronização pode demorar um pouco`,
       icon: "info",
       buttons: true,
@@ -44,7 +44,9 @@ export default function SincTable(props) {
         } else {
           setSinced(false);
           setSinc("Não sincronizado");
-          swal("Sincronização Cancelada!");
+          swal("Sincronização Cancelada!", {
+            icon: "warning"
+          });
         }
       });
   }

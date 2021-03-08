@@ -20,7 +20,7 @@ export default function MainPanel(props) {
       {props.local === 'dashboard' && <ContentDashboard />}
       {props.local === 'profile' && <ContentProfile 
       user = {user}/>}
-      {props.local === 'classroom' && <SincTable
+      {props.local === 'sincronizar' && <SincTable
       user={user}
       />}
       <Footer />

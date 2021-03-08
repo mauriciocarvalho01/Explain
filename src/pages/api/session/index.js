@@ -4,7 +4,7 @@ import insertUser from '../user/insert'
 import queryUser from '../user/get'
 
 export default async (req, res) => {
-  const session = await getSession({ req })
+  const session = await getSession({ req });
 
   if (session) {
     const user = session.user.name;
@@ -17,6 +17,7 @@ export default async (req, res) => {
     const isUser = responseUSer ? responseUSer.length : null;
 
     if (isUser === 0) {
+      console.log(JSN.stringiify(session));
       insertUser(session);
     }
 

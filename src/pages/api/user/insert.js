@@ -3,7 +3,6 @@ import { queryMysql } from '../config/mysql/mysql.db';
 
 export default async function insertUser(session) {
 
-
     if (session) {
         const { name, email, image } = session.user;
         const first_name = name.split(' ')[0];

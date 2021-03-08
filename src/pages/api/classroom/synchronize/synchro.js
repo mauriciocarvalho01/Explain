@@ -1,28 +1,29 @@
 const fs = require('fs');
-const readline = require('readline');
 const { google } = require('googleapis');
-
+import getCourses from '../actions/getCourses';
+import environmentsVar from '../../config/env/next.config';
 
 // Next.js API route support: https://nextjs.org/docs/api-routes/introduction
 
 
 const handler = async (req, res) => {
-
     if (req) { var { code } = req.body };
 
-    console.log("*************CODE*****************" + code)
+    console.log(`*************${code}*****************`)
 
     try {
-        // If modifying these scopes, delete token.json.
-        const SCOPES = [
-            'https://www.googleapis.com/auth/classroom.courses',
-            'https://www.googleapis.com/auth/classroom.courses.readonly'
-        ];
+
+
+        const SCOPES = environmentsVar.SCOPES;/* [
+        //     'https://www.googleapis.com/auth/classroom.courses',
+        //     'https://www.googleapis.com/auth/classroom.courses.readonly',
+
+        // ];*/
         // The file token.json stores the user's access and refresh tokens, and is
         // created automatically when the authorization flow completes for the first
         // time.
 
-
+        // If modifying these scopes, delete token.json.
         const TOKEN_PATH = 'src/pages/api/config/google/token/sinchro_tkn.json';
         const PATH_CREDENTIALS = 'src/pages/api/config/google/credentials/credentials.json';
 
@@ -42,8 +43,7 @@ const handler = async (req, res) => {
         fs.readFile(PATH_CREDENTIALS, (err, content) => {
             if (err) return console.log('Error loading client secret file:', err);
             // Authorize a client with credentials, then call the Google Classroom API.
-            authorize(JSON.parse(content), listCourses);
-
+            authorize(JSON.parse(content), sincronize);
         });
 
         /**
@@ -106,23 +106,10 @@ const handler = async (req, res) => {
      * @param {google.auth.OAuth2} auth An authorized OAuth2 client.
      */
         //PRECISO INSERIR AS INFORMAÇÕES DO CURSO NO BANCO
-        function listCourses(auth) {
+        async function sincronize(auth) {
             const classroom = google.classroom({ version: 'v1', auth });
-            classroom.courses.list({
-                pageSize: 10,
-            }, (err, res) => {
-                if (err) return console.error('The API returned an error: ' + err);
-                const courses = res.data.courses;
-                if (courses && courses.length) {
-                    console.log('Courses:');
-                    courses.forEach((course) => {
-                        //Criar rotina para alimentar o banco de dados.
-                        console.log(`${course.name} (${course.id})`);
-                    });
-                } else {
-                    console.log('No courses found.');
-                }
-            });
+            const coursesIds = await getCourses(classroom);
+            console.log(coursesIds);
         }
 
     } catch (err) {
@@ -130,5 +117,11 @@ const handler = async (req, res) => {
     }
 
 }
+
+
+
+
+
+
 
 export default handler;
